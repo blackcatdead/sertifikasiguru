@@ -1,0 +1,96 @@
+{% extends "client/cl_base.html" %}
+{% load static %}
+{% block page %}
+{{page}}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="box box-default">
+	<div class="box-header with-border">
+		<h3 class="box-title">DOKUMEN</h3>
+	</div>
+	<div class="box-body table-responsive no-padding">
+		<table class="table table-hover">
+                <tbody><tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                </tr>
+                <tr>
+                  <td>183</td>
+                  <td>John Doe</td>
+                  <td>11-7-2014</td>
+                  <td><span class="label label-success">Approved</span></td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+                <tr>
+                  <td>219</td>
+                  <td>Alexander Pierce</td>
+                  <td>11-7-2014</td>
+                  <td><span class="label label-warning">Pending</span></td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+                <tr>
+                  <td>657</td>
+                  <td>Bob Doe</td>
+                  <td>11-7-2014</td>
+                  <td><span class="label label-primary">Approved</span></td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+                <tr>
+                  <td>175</td>
+                  <td>Mike Doe</td>
+                  <td>11-7-2014</td>
+                  <td><span class="label label-danger">Denied</span></td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+              </tbody>
+        </table>
+	</div>
+	<div class="box-footer">
+		<div class="row">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-primary btn-block btn-flat">Unduh</button>
+			</div>
+		</div>
+		
+	</div>
+
+	<!-- /.box-body -->
+</div>
+{% if not dataresponden.stage %}
+	<div class="modal fade modal" id="myModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">KONFIRMASI</h4>
+				</div>
+				<div class="modal-body">
+					<p>Selanjutnya Anda akan disuguhkan beberapa pertanyaan yang harus Anda jawab. <i>Score</i> dan waktu mengerjakan akan dihitung semenjak Anda meng-Klik tombol "<strong>MULAI</strong>".</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Nanti dulu</button>
+					<a class="btn btn-success" href="#">MULAI</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endif %}
+
+<!-- /.box -->
+{% endblock %}
+
+
+{% block foot %}
+	
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Docx</title>
+</head>
+<body>
+	<form method="POST">
+		{% csrf_token %}
+		Nama Guru:	<input type="text" name="nama_guru">
+		<br>
+		NIP Guru:	<input type="text" name="nip_guru">
+		<br>
+		Nama Kepala:	<input type="text" name="nama_kepala">
+		<br>
+		NIP Kepala:	<input type="text" name="nip_kepala">
+		<br>
+		Sekolah:	<input type="text" name="sekolah">
+		<br>
+		Alamat:	<input type="text" name="alamat">
+		<br>
+		<button type="submit"> Generate Docx </button>
+	</form>
+	<a href="{% url 'downloaddocx' %}">Download Docx</a>
+	<a href="{% url 'readdocx' %}">Read Docx</a>
+</body>
+</html>
