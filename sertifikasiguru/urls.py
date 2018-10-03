@@ -38,6 +38,11 @@ urlpatterns = [
     path('admin2/ubahguru/', adm.editguru, name='ubahguru'),
     path('admin2/hapusguru/', adm.removeguru, name='hapusguru'),
 
+     path('admin2/subject/', adm.subject, name='subject'),
+    path('admin2/tambahsubject/', adm.addsubject, name='tambahsubject'),
+    path('admin2/ubahsubject/', adm.editsubject, name='ubahsubject'),
+    path('admin2/hapussubject/', adm.removesubject, name='hapussubject'),
+
     path('admin2/sekolah/', adm.sekolah, name='sekolah'),
     path('admin2/tambahsekolah/', adm.addsekolah, name='tambahsekolah'),
     path('admin2/ubahgsekolah/', adm.editsekolah, name='ubahsekolah'),
@@ -67,6 +72,7 @@ urlpatterns = [
 	path('adminkeluar/', adm.logout, name='adminkeluar'),
 
     path('ajax/table_guru/', adm.table_guru, name='table_guru'),
+    path('ajax/table_subject/', adm.table_subject, name='table_subject'),
     path('ajax/table_sekolah/', adm.table_sekolah, name='table_sekolah'),
     path('ajax/table_kepala/', adm.table_kepala, name='table_kepala'),
     path('ajax/table_paket/', adm.table_paket, name='table_paket'),

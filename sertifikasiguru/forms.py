@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, Textarea, TextInput, NumberInput, EmailInput, Select, PasswordInput, FileInput, ImageField, ClearableFileInput
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
-from sertifikasiguru.models import Guru, Kepala, Sekolah, Paket, Photo, File, Order
+from sertifikasiguru.models import Guru, Kepala, Sekolah, Paket, Photo, File, Order, Subject
 
 class LoginAdminForm(forms.Form):
     username = forms.CharField(label='user', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'blank': True}))
@@ -17,48 +17,62 @@ class LoginClientForm(forms.Form):
 class EditGuruForm(ModelForm):
     class Meta:
         model = Guru
-        fields = ['guru', 'nip_guru', 'sekolah', 'email', 'hp', 'password', 'status', 'ttd_guru']
+        fields = ['guru', 'nip_guru', 'email', 'hp', 'password', 'alamat', 'status', 'ttd_guru']
         widgets = {
             'guru': TextInput(attrs={'class': 'form-control', 'placeholder': '*Guru', 'autocomplete': 'off'}),
             'nip_guru': TextInput(attrs={'class': 'form-control text_type_number', 'placeholder': '*NIP', 'autocomplete': 'off'}),
-            'sekolah': Select(attrs={'class': 'form-control', 'placeholder': '*Sekolah', 'autocomplete': 'off'}),
             'email': EmailInput(attrs={'class': 'form-control ', 'placeholder': '*Email', 'autocomplete': 'off'}),
             'hp': TextInput(attrs={'class': 'form-control ', 'placeholder': '*Nomor Hp', 'autocomplete': 'off'}),
+            'alamat': TextInput(attrs={'class': 'form-control', 'placeholder': '*Alamat', 'autocomplete': 'off'}),
             'password': TextInput(attrs={'class': 'form-control ', 'placeholder': '*Password', 'autocomplete': 'off'}),
             'status': Select(attrs={'class': 'form-control', 'placeholder': '*Status', 'autocomplete': 'off'}),
+        }
+
+class EditSubjectForm(ModelForm):
+    class Meta:
+        model = Subject
+        fields = ['subject']
+        widgets = {
+            'subject': TextInput(attrs={'class': 'form-control', 'placeholder': '*Subject', 'autocomplete': 'off'}),
         }
 
 class EditSekolahForm(ModelForm):
     class Meta:
         model = Sekolah
-        fields = ['sekolah', 'alamat', 'status']
+        fields = ['sekolah', 'alamat', 'email', 'telp', 'jenjang', 'status']
         widgets = {
             'sekolah': TextInput(attrs={'class': 'form-control', 'placeholder': '*Sekolah', 'autocomplete': 'off'}),
+            'email': EmailInput(attrs={'class': 'form-control ', 'placeholder': '*Email', 'autocomplete': 'off'}),
+            'telp': TextInput(attrs={'class': 'form-control ', 'placeholder': '*Nomor Telp', 'autocomplete': 'off'}),
             'alamat': TextInput(attrs={'class': 'form-control', 'placeholder': '*Alamat', 'autocomplete': 'off'}),
+            'jenjang': Select(attrs={'class': 'form-control', 'placeholder': '*Jenjang', 'autocomplete': 'off'}),
             'status': Select(attrs={'class': 'form-control', 'placeholder': '*Status', 'autocomplete': 'off'}),
         }
 
 class EditKepalaForm(ModelForm):
     class Meta:
         model = Kepala
-        fields = ['kepala', 'nip_kepala', 'sekolah', 'status', 'ttd_kepala']
+        fields = ['kepala', 'nip_kepala', 'sekolah', 'email', 'hp', 'alamat', 'status', 'ttd_kepala']
         widgets = {
             'kepala': TextInput(attrs={'class': 'form-control', 'placeholder': '*Kepala', 'autocomplete': 'off'}),
             'nip_kepala': TextInput(attrs={'class': 'form-control text_type_number', 'placeholder': '*NIP', 'autocomplete': 'off'}),
             'sekolah': Select(attrs={'class': 'form-control', 'placeholder': '*Sekolah', 'autocomplete': 'off'}),
+            'email': EmailInput(attrs={'class': 'form-control ', 'placeholder': '*Email', 'autocomplete': 'off'}),
+            'hp': TextInput(attrs={'class': 'form-control ', 'placeholder': '*Nomor Hp', 'autocomplete': 'off'}),
+            'alamat': TextInput(attrs={'class': 'form-control', 'placeholder': '*Alamat', 'autocomplete': 'off'}),
             'status': Select(attrs={'class': 'form-control', 'placeholder': '*Status', 'autocomplete': 'off'}),
         }
 
 class EditPaketForm(ModelForm):
     class Meta:
         model = Paket
-        fields = ['paket', 'grade', 'year', 'semester', 'matapelajaran', 'status']
+        fields = ['paket', 'grade', 'year', 'semester', 'subject', 'status']
         widgets = {
             'paket': TextInput(attrs={'class': 'form-control', 'placeholder': '*Paket', 'autocomplete': 'off'}),
             'grade': Select(attrs={'class': 'form-control', 'placeholder': '*Grade', 'autocomplete': 'off'}),
             'year': Select(attrs={'class': 'form-control', 'placeholder': '*Year', 'autocomplete': 'off'}),
             'semester': Select(attrs={'class': 'form-control', 'placeholder': '*semester', 'autocomplete': 'off'}),
-            'matapelajaran': Select(attrs={'class': 'form-control', 'placeholder': '*Mata Pelajaran', 'autocomplete': 'off'}),
+            'subject': Select(attrs={'class': 'form-control', 'placeholder': '*Mata Pelajaran', 'autocomplete': 'off'}),
             'status': Select(attrs={'class': 'form-control', 'placeholder': '*Status', 'autocomplete': 'off'}),
         }	
 

@@ -40,7 +40,8 @@
 						            <th data-column-id="guru" >Nama Guru</th>
 						            <th data-column-id="nip_guru">NIP</th>
 						            <th data-column-id="email" >Email</th>
-						            <th data-column-id="hp" >Hp</th>
+						            <th data-column-id="hp">Hp</th>
+						            <th data-column-id="ttd_guru">TTD</th>
 						            <th data-column-id="status" data-width="100">Status</th>
 						            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100"></th>
 						        </tr>
@@ -86,8 +87,7 @@
 	    formatters: {
 	        "commands": function(column, row)
 	        {
-	        	return '<button type="button" class="btn btn-xs btn-default command-detail" data-row-id="' + row.id + '"><span class="fas fa-list-alt"></span></button> '
-	            +'<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '"><span class="far fa-edit"></span></button> ' 
+	        	return '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '"><span class="far fa-edit"></span></button> ' 
 	            +'<button type="button" class="btn btn-xs btn-default command-delete" data-row-id="' + row.id + '"><span class="far fa-trash-alt"></span></button>'
 	        }
 	    }

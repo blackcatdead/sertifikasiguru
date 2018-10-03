@@ -11,9 +11,6 @@ from sertifikasiguru.MyCustomBackend import MyCustomBackend
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 
-
-
-
 @csrf_exempt
 def testdocx(request):
 	template = loader.get_template('testdocx.html')

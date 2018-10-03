@@ -4,16 +4,16 @@ from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
-from sertifikasiguru.forms import LoginAdminForm, EditGuruForm, EditSekolahForm, EditKepalaForm, EditPaketForm, Multiuplodform, FileForm, EditOrderForm, AddOrderForm
+from sertifikasiguru.forms import LoginAdminForm, EditGuruForm, EditSekolahForm, EditKepalaForm, EditPaketForm, Multiuplodform, FileForm, EditOrderForm, AddOrderForm, EditSubjectForm
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from sertifikasiguru.decorators import decoadmin
 from django.contrib.auth.models import User
-from sertifikasiguru.models import Guru, Order, Sekolah, Kepala, Paket, File, Order, DetailOrder
+from sertifikasiguru.models import Guru, Order, Sekolah, Kepala, Paket, File, Order, DetailOrder, Subject
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.core import serializers
-
+from sertifikasiguru import settings
 
 from django.views.generic.edit import FormView
 from sertifikasiguru.forms import FileFieldForm
@@ -92,7 +92,6 @@ def addguru(request):
 		form = EditGuruForm()
 	return HttpResponse(template.render({'form': form,'page': 'Tambah Guru', 'admin': User.objects.get(id=request.session['admin'])}, request))
 
-
 @decoadmin
 def editguru(request):
 	instance = get_object_or_404(Guru, id_guru=request.GET['id'])
@@ -106,7 +105,6 @@ def editguru(request):
 	else:
 		form = EditGuruForm(instance=instance)
 	return HttpResponse(template.render({'form': form,'page': 'Ubah Guru', 'admin': User.objects.get(id=request.session['admin']), 'guru': instance}, request))
-
 
 @decoadmin
 def removeguru(request):
@@ -122,6 +120,54 @@ def removeguru(request):
 	else:
 		return HttpResponse(template.render(context, request))
 
+@decoadmin
+def subject(request):
+	template = loader.get_template('admin/v_subject.html')
+	context = {
+		'page': 'Subject',
+		'admin': User.objects.get(id=request.session['admin']),
+    }
+	return HttpResponse(template.render(context, request))
+
+@decoadmin
+def addsubject(request):
+	template = loader.get_template('admin/v_subject_edit.html')
+	if request.method == 'POST':
+		form = EditSubjectForm(request.POST, request.FILES)
+		if form.is_valid():
+			ne = form.save(commit=False)
+			ne.save()
+			messages.success(request, 'Berhasil mendaftarkan Subject baru #'+str(ne.id_subject))
+			return redirect('subject')
+	else:
+		form = EditSubjectForm()
+	return HttpResponse(template.render({'form': form,'page': 'Tambah Subject', 'admin': User.objects.get(id=request.session['admin'])}, request))
+
+@decoadmin
+def editsubject(request):
+	instance = get_object_or_404(Subject, id_subject=request.GET['id'])
+	template = loader.get_template('admin/v_subject_edit.html')
+	if request.method == 'POST':
+		form = EditSubjectForm(request.POST, request.FILES, instance=instance)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Berhasil merubah Subject #'+str(request.GET['id']))
+			return redirect('subject')
+	else:
+		form = EditSubjectForm(instance=instance)
+	return HttpResponse(template.render({'form': form,'page': 'Ubah Subject', 'admin': User.objects.get(id=request.session['admin']), 'subject': instance}, request))
+
+@decoadmin
+def removesubject(request):
+	instance = get_object_or_404(Subject, id_subject=request.GET['id'])
+	template = loader.get_template('admin/v_subject_hapus.html')
+	context = {'page': 'Hapus Subject', 'admin': User.objects.get(id=request.session['admin']), 'subject':instance}
+	if request.method == 'POST':
+		instance.delete()
+		messages.success(request, 'Berhasil menghapus Subject #'+str(request.POST['hapus']))
+		return redirect('subject')
+	else:
+		return HttpResponse(template.render(context, request))
 
 @decoadmin
 def sekolah(request):
@@ -141,7 +187,7 @@ def addsekolah(request):
 		if form.is_valid():
 			ne = form.save(commit=False)
 			ne.save()
-			messages.success(request, 'Berhasil menambahkan Sekolah baru #'+str(ne.id_guru))
+			messages.success(request, 'Berhasil menambahkan Sekolah baru #'+str(ne.id_sekolah))
 			return redirect('sekolah')
 	else:
 		form = EditSekolahForm()
@@ -243,7 +289,7 @@ def addpaket(request):
 		if form.is_valid():
 			ne = form.save(commit=False)
 			ne.save()
-			messages.success(request, 'Berhasil menambahkan Paket baru #'+str(ne.id_kepala))
+			messages.success(request, 'Berhasil menambahkan Paket baru #'+str(ne.id_paket))
 			return redirect('paket')
 	else:
 		form = EditPaketForm()
@@ -399,9 +445,43 @@ def table_guru(request):
 		dt['guru']=x['fields']['guru']
 		dt['nip_guru']=x['fields']['nip_guru']
 		dt['email']=x['fields']['email']
+		dt['ttd_guru']= '<a href="'+settings.MEDIA_URL+x['fields']['ttd_guru']+'">'+x['fields']['ttd_guru']+'</a>' 
 		dt['hp']=x['fields']['hp']
 		clas2= 'blue' if x['fields']['status']==1 else 'danger'
 		dt['status']='<span class="badge bg-'+clas2+'">'+('Active' if x['fields']['status']==1 else 'Deactive')+'</span>'
+
+		rows.append(dt)
+		rowscount += 1
+		pass
+	response_data['rows']=rows
+	return JsonResponse(response_data, safe=False)
+
+@csrf_exempt
+@decoadmin
+def table_subject(request):
+	response_data = {}
+
+	ord= '-id_subject'
+	if request.POST.get("sort[id]", ""):
+		ord= '-id_subject' if request.POST.get("sort[id]", "")=='desc' else 'id_subject'
+	elif request.POST.get("sort[subject]", ""):
+		ord= '-subject' if request.POST.get("sort[subject]", "")=='desc' else 'subject'
+
+	data_posts= Subject.objects.filter(subject__icontains=request.POST.get("searchPhrase", "")).all().order_by(ord) 
+	response_data['total'] = data_posts.count()
+	current= (int(request.POST.get("current", "1"))*int(request.POST.get("rowCount", "10")))-int(request.POST.get("rowCount", "10"))
+	rowcount=  (str(response_data['total']) if request.POST.get("rowCount", "10") == '-1' else current+int(request.POST.get("rowCount", "10")))
+	response_data['current'] = int(request.POST.get("current", "0"))
+	response_data['rowCount'] = int(request.POST.get("rowCount", "10"))
+
+	data = serializers.serialize("python", data_posts[int(current) : int(rowcount)])
+	rows=[]
+	rowscount=0
+	
+	for x in data:
+		dt={}
+		dt['id']=x['pk']
+		dt['subject']=x['fields']['subject']
 
 		rows.append(dt)
 		rowscount += 1
@@ -419,6 +499,8 @@ def table_sekolah(request):
 		ord= '-id_sekolah' if request.POST.get("sort[id]", "")=='desc' else 'id_sekolah'
 	elif request.POST.get("sort[sekolah]", ""):
 		ord= '-sekolah' if request.POST.get("sort[sekolah]", "")=='desc' else 'sekolah'
+	elif request.POST.get("sort[jenjang]", ""):
+		ord= '-jenjang' if request.POST.get("sort[jenjang]", "")=='desc' else 'jenjang'
 	elif request.POST.get("sort[status]", ""):
 		ord= '-status' if request.POST.get("sort[status]", "")=='desc' else 'status'
 
@@ -437,6 +519,7 @@ def table_sekolah(request):
 		dt={}
 		dt['id']=x['pk']
 		dt['sekolah']=x['fields']['sekolah']
+		dt['jenjang']= 'SD' if x['fields']['jenjang'] == 1 else ('SMP' if x['fields']['jenjang'] == 2 else ('SMA' if x['fields']['jenjang'] == 3 else 'None'))
 		clas2= 'blue' if x['fields']['status']==1 else 'danger'
 		dt['status']='<span class="badge bg-'+clas2+'">'+('Active' if x['fields']['status']==1 else 'Deactive')+'</span>'
 
@@ -484,6 +567,7 @@ def table_kepala(request):
 		dt['kepala']=x['fields']['kepala']
 		dt['sekolah']= d_sekolah[x['fields']['sekolah']] if x['fields']['sekolah'] else '-' 
 		dt['nip_kepala']=x['fields']['nip_kepala']
+		dt['ttd_kepala']= '<a href="'+settings.MEDIA_URL+x['fields']['ttd_kepala']+'">'+x['fields']['ttd_kepala']+'</a>' 
 		clas2= 'blue' if x['fields']['status']==1 else 'danger'
 		dt['status']='<span class="badge bg-'+clas2+'">'+('Active' if x['fields']['status']==1 else 'Deactive')+'</span>'
 

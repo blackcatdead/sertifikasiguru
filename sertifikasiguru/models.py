@@ -9,11 +9,22 @@ class Sekolah(models.Model):
 	id_sekolah= models.AutoField(primary_key=True)
 	sekolah= models.CharField(max_length=100, null=False, default=None)
 	alamat= models.CharField(max_length=200, null=False, default=None)
+	telp= models.CharField(max_length=100, null=False, default=None)
+	email= models.CharField(max_length=100, null=False, default=None)
+	alamat= models.CharField(max_length=200, null=False, default=None)
+	jenj= (
+        (0, 'None'),
+        (1, 'SD'),
+        (2, 'SMP'),
+        (3, 'SMA'),
+    )
+	jenjang= models.IntegerField(choices=jenj, null=False, default=1)
 	st= (
         (0, 'Deactive'),
         (1, 'Active'),
     )
 	status= models.IntegerField(choices=st, null=False, default=1)
+
 	def __str__(self):
 		return self.sekolah
 
@@ -22,6 +33,9 @@ class Kepala(models.Model):
 	sekolah= models.ForeignKey(Sekolah, on_delete=models.SET_NULL,null=True)
 	kepala= models.CharField(max_length=100, null=False, default=None)
 	nip_kepala= models.CharField(max_length=100, null=False, default=None)
+	hp= models.CharField(max_length=100, null=False, default=None)
+	email= models.CharField(max_length=100, null=False, default=None)
+	alamat= models.CharField(max_length=200, null=False, default=None)
 	ttd_kepala= models.ImageField(blank=True, null=True, upload_to='ttd')
 	st= (
         (0, 'Deactive'),
@@ -33,10 +47,11 @@ class Kepala(models.Model):
 
 class Guru(models.Model):
 	id_guru= models.AutoField(primary_key=True)
-	sekolah= models.ForeignKey(Sekolah, on_delete=models.SET_NULL,null=True)
+	# sekolah= models.ForeignKey(Sekolah, on_delete=models.SET_NULL,null=True)
 	guru= models.CharField(max_length=100, null=False, default=None)
 	hp= models.CharField(max_length=100, null=False, default=None)
 	email= models.CharField(max_length=100, null=False, default=None)
+	alamat= models.CharField(max_length=200, null=False, default=None)
 	password= models.CharField(max_length=50, null=False, default=None)
 	nip_guru= models.CharField(max_length=100, null=False, default=None)
 	ttd_guru= models.ImageField(blank=True, null=True, upload_to='ttd')
@@ -49,12 +64,12 @@ class Guru(models.Model):
 	def __str__(self):
 		return self.guru
 
-class MataPelajaran(models.Model):
-	id_matapelajaran= models.AutoField(primary_key=True)
-	matapelajaran= models.CharField(max_length=100, null=False, default=None)
+class Subject(models.Model):
+	id_subject= models.AutoField(primary_key=True)
+	subject= models.CharField(max_length=100, null=False, default=None)
 
 	def __str__(self):
-		return self.matapelajaran
+		return self.subject
 
 class Paket(models.Model):
 	id_paket= models.AutoField(primary_key=True)
@@ -64,7 +79,7 @@ class Paket(models.Model):
 	for r in range(1, 13):
 	    GRADE_CHOICES.append((r,r))
 	grade= models.IntegerField(('grade'), choices=GRADE_CHOICES, default=None)
-	matapelajaran= models.ForeignKey(MataPelajaran, on_delete=models.SET_NULL,null=True)
+	subject= models.ForeignKey(Subject, on_delete=models.SET_NULL,null=True)
 	YEAR_CHOICES = []
 	for r in range((datetime.now().year-5), (datetime.now().year+5)):
 	    YEAR_CHOICES.append((r,r))
@@ -81,7 +96,7 @@ class Paket(models.Model):
     )
 	status= models.IntegerField(choices=st, null=False, default=1)
 	def __str__(self):
-		return str(self.id_paket) +' - '+ str(self.grade) +' - '+ str(self.matapelajaran) +' - '+ str(self.year) +' - '+ str(self.semester)
+		return str(self.id_paket) +' - '+ str(self.grade) +' - '+ str(self.subject) +' - '+ str(self.year) +' - '+ str(self.semester)
 
 
 class File(models.Model):

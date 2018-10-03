@@ -38,6 +38,7 @@
 						        <tr>
 						            <th data-column-id="id" data-type="numeric" data-sortable="true" data-width="90">ID</th>
 						            <th data-column-id="sekolah" >Sekolah</th>
+						            <th data-column-id="jenjang" >Jenjang</th>
 						            <th data-column-id="status" data-width="100">Status</th>
 						            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100"></th>
 						        </tr>
@@ -83,8 +84,7 @@
 	    formatters: {
 	        "commands": function(column, row)
 	        {
-	        	return '<button type="button" class="btn btn-xs btn-default command-detail" data-row-id="' + row.id + '"><span class="fas fa-list-alt"></span></button> '
-	            +'<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '"><span class="far fa-edit"></span></button> ' 
+	        	return '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '"><span class="far fa-edit"></span></button> ' 
 	            +'<button type="button" class="btn btn-xs btn-default command-delete" data-row-id="' + row.id + '"><span class="far fa-trash-alt"></span></button>'
 	        }
 	    }
