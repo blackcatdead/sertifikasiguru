@@ -38,7 +38,7 @@ urlpatterns = [
     path('admin2/ubahguru/', adm.editguru, name='ubahguru'),
     path('admin2/hapusguru/', adm.removeguru, name='hapusguru'),
 
-     path('admin2/subject/', adm.subject, name='subject'),
+    path('admin2/subject/', adm.subject, name='subject'),
     path('admin2/tambahsubject/', adm.addsubject, name='tambahsubject'),
     path('admin2/ubahsubject/', adm.editsubject, name='ubahsubject'),
     path('admin2/hapussubject/', adm.removesubject, name='hapussubject'),
