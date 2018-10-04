@@ -21,6 +21,26 @@
           	</div>
 		    {% endfor %}
 		{% endif %}
+		<div class="alert alert-success" id="alert_msg">
+        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        	<h4><i class="fas fa-exclamation-triangle"></i> Alert!</h4>
+        	<ol>
+        		<li>File yang diupload dengan format *.docx</li>
+        		<li>Pastikan seluruh file telah dirubah ke dalam bentuk sesuai format berikut:</li>
+        		<ul>
+        			<li><strong>xnmk</strong>	: Nama Kepala</li>
+					<li><strong>xnmg</strong>	: Nama Guru</li>
+					<li><strong>xnik</strong>	: NIP Kepala</li>
+					<li><strong>xnig</strong>	: NIP Guru</li>
+					<li><strong>xskn</strong>	: Nama Sekolah</li>
+					<li><strong>xska</strong>	: ALamat Sekolah</li>
+					<li><strong>xtdk</strong>	: TTD Kepala</li>
+					<li><strong>xtdg</strong>	: TTD Guru</li>
+					<li><strong>unmk</strong>	: Nama Kepala with underline</li>
+					<li><strong>unmg</strong>	: Nama Guru with underline</li>
+        		</ul>
+        	</ol>
+      	</div>
 		<div class="box">
 			<div class="box-header with-border">
 			  	<h3 class="box-title">{{page}}</h3>

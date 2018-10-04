@@ -28,9 +28,9 @@
 			    </div>
 			</div><!-- /.box-header -->
 			<div class="box-body">
-				Done: 10 of 20
+<!-- 				Done: 10 of 20
 				<br>
-				Failed: 3
+				Failed: 3 -->
 				<table id="gallery" class="table table-bordered table-hover table-striped">
 				  <thead>
 				    <tr>
@@ -46,13 +46,20 @@
 				      	<td>{{ forloop.counter }}</td> 
 				        <td>{{ f.file.filename }}</td> 
 				        <td>
-				        	<span class="badge bg-green"><i class="fas fa-check"></i> Done</span>
-				        	<span class="badge bg-blue"><i class="fas fa-spinner"></i> in Queue</span>
-				        	<span class="badge bg-red"><i class="fas fa-times"></i> Failed	</span>
+				        	{% if f.processed %}
+				            	<span class="badge bg-green"><i class="fas fa-check"></i> Done</span>
+				            {% else %}
+				            	<span class="badge bg-blue"><i class="fas fa-spinner"></i> in Queue</span>
+							{% endif %}
+				        	
+				        	
+				        	<!-- <span class="badge bg-red"><i class="fas fa-times"></i> Failed	</span> -->
 				        </td>
 				        <td>
-				            <a href="#" type="button" class="btn btn-xs btn-default"><span class="fas fa-sync-alt"></span></a>
-				            <a type="button" class="btn btn-xs btn-default" href="{{ f.file.url }}" download><span class="fas fa-download"></span></a>
+				            <a href="{% url 'replacing' %}?id={{ f.id_detailorder }}" type="button" class="btn btn-xs btn-default"><span class="fas fa-sync-alt"></span></a>
+				            {% if f.processed %}
+				            	<a href="{{ f.processed }}" type="button" class="btn btn-xs btn-default"><span class="fas fa-download"></span></a>
+							{% endif %}
 				        </td>
 				      </tr>
 				    {% endfor %}

@@ -80,6 +80,8 @@ urlpatterns = [
     path('ajax/basicupload/', adm.basicupload, name='basicupload'),
     path('ajax/xfilename/', adm.xfilename, name='xfilename'),
 
+    path('replace/file/', piuw.replacing, name='replacing'),
+
     # path('admin2/hapusfile/', adm.removeAllfilePaket, name='downloadsemuafilepaket'),
     path('admin2/hapussemuafilepaket/', adm.removeAllfilePaket, name='hapussemuafilepaket'),
 

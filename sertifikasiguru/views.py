@@ -4,12 +4,142 @@ from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
-from sertifikasiguru.models import Guru, File
+from sertifikasiguru.models import Guru, File, DetailOrder, Order, Paket
 from sertifikasiguru.decorators import decoclient
 from sertifikasiguru.forms import LoginClientForm
 from sertifikasiguru.MyCustomBackend import MyCustomBackend
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from sertifikasiguru import settings
+
+def custom_redirect(url_name, **kwargs):
+    from django.urls import reverse 
+    import urllib
+    url = reverse(url_name)
+    params = urllib.parse.urlencode(kwargs)
+    return HttpResponseRedirect(url + "?%s" % params)
+
+
+def replacing (request):
+	instance = get_object_or_404(DetailOrder, id_detailorder=request.GET['id'])
+	messages.success(request, 'Generate detailOrder '+str(instance.id_detailorder))
+	return replaceyaya(instance)
+
+def replaceyaya(detailOrder):
+	print(detailOrder)
+	print(detailOrder.file.file.url.strip("/"))
+	f = open(detailOrder.file.file.url.strip("/") , 'rb')
+	document = Document(f)
+	f.close()
+	# xnmk	: Nama Kepala
+	# xnmg	: Nama Guru
+	# xnik	: NIP Kepala
+	# xnig	: NIP Guru
+	# xskn	: Nama Sekolah
+	# xska	: ALamat Sekolah
+	# xtdk	: TTD Kepala
+	# xtdg	: TTD Guru
+	# unmk	: Nama Kepala with underline
+	# unmg	: Nama Guru with underline
+	filename= detailOrder.file.filename
+	nama_guru= detailOrder.order.guru.guru
+	nama_kepala= detailOrder.order.kepala.kepala
+	nip_guru= detailOrder.order.guru.nip_guru
+	nip_kepala= detailOrder.order.kepala.nip_kepala
+	nama_sekolah= detailOrder.order.sekolah.sekolah
+	alamat_sekolah= detailOrder.order.sekolah.alamat
+	ttd_kepala= detailOrder.order.kepala.ttd_kepala.url.strip("/")
+	ttd_guru= detailOrder.order.guru.ttd_guru.url.strip("/")
+
+	for p in document.paragraphs:
+		if 'xnmk' in p.text or 'xnmg' in p.text or 'xnik' in p.text or 'xnig' in p.text or 'xskn' in p.text or 'xska' in p.text or 'xtdk' in p.text or 'xtdg' in p.text or 'unmk' in p.text or 'unmg' in p.text:
+			inline = p.runs
+			for i in range(len(inline)):
+				if 'unmg' in inline[i].text:
+					text = inline[i].text.replace('unmg', nama_guru)
+					inline[i].text = text
+					inline[i].underline = True
+				if 'unmk' in inline[i].text:
+					text = inline[i].text.replace('unmk', nama_kepala)
+					inline[i].text = text
+					inline[i].underline = True
+				if 'xnik' in inline[i].text:
+					text = inline[i].text.replace('xnik', nip_kepala)
+					inline[i].text = text
+				if 'xnig' in inline[i].text:
+					text = inline[i].text.replace('xnig', nip_guru)
+					inline[i].text = text
+				if 'xnmk' in inline[i].text:
+					text = inline[i].text.replace('xnmk', nama_kepala)
+					inline[i].text = text
+				if 'xnmg' in inline[i].text:
+					text = inline[i].text.replace('xnmg', nama_guru)
+					inline[i].text = text
+				if 'xskn' in inline[i].text:
+					text = inline[i].text.replace('xskn', nama_sekolah)
+					inline[i].text = text
+				if 'xska' in inline[i].text:
+					text = inline[i].text.replace('xska', alamat_sekolah)
+					inline[i].text = text
+				if 'xtdk' in inline[i].text:
+					inline[i].text = ''
+					inline[i].add_picture(ttd_kepala)
+				if 'xtdg' in inline[i].text:
+					inline[i].text = ''
+					inline[i].add_picture(ttd_guru)
+
+	for table in document.tables:
+		for row in table.rows:
+			for cell in row.cells:
+				for p in cell.paragraphs:
+					if 'xnmk' in p.text or 'xnmg' in p.text or 'xnik' in p.text or 'xnig' in p.text or 'xskn' in p.text or 'xska' in p.text or 'xtdk' in p.text or 'xtdg' in p.text or 'unmk' in p.text or 'unmg' in p.text:
+						inline = p.runs
+						for i in range(len(inline)):
+							if 'unmg' in inline[i].text:
+								text = inline[i].text.replace('unmg', nama_guru)
+								inline[i].text = text
+								inline[i].underline = True
+							if 'unmk' in inline[i].text:
+								text = inline[i].text.replace('unmk', nama_kepala)
+								inline[i].text = text
+								inline[i].underline = True
+							if 'xnik' in inline[i].text:
+								text = inline[i].text.replace('xnik', nip_kepala)
+								inline[i].text = text
+							if 'xnig' in inline[i].text:
+								text = inline[i].text.replace('xnig', nip_guru)
+								inline[i].text = text
+							if 'xnmk' in inline[i].text:
+								text = inline[i].text.replace('xnmk', nama_kepala)
+								inline[i].text = text
+							if 'xnmg' in inline[i].text:
+								text = inline[i].text.replace('xnmg', nama_guru)
+								inline[i].text = text
+							if 'xskn' in inline[i].text:
+								text = inline[i].text.replace('xskn', nama_sekolah)
+								inline[i].text = text
+							if 'xska' in inline[i].text:
+								text = inline[i].text.replace('xska', alamat_sekolah)
+								inline[i].text = text
+							if 'xtdk' in inline[i].text:
+								inline[i].text = ''
+								inline[i].add_picture(ttd_kepala)
+							if 'xtdg' in inline[i].text:
+								inline[i].text = ''
+								inline[i].add_picture(ttd_guru)
+
+	# response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+	# response['Content-Disposition'] = 'attachment; filename=download.docx'
+	# document.save(response)
+	document.save('media/processed/'+str(detailOrder.id_detailorder)+'.docx')
+	detailOrder.processed= settings.MEDIA_URL+'processed/'+str(detailOrder.id_detailorder)+'.docx'
+
+	detailOrder.save()
+	
+	# return response
+	return custom_redirect('detailorder', id = detailOrder.order.id_order)
 
 @csrf_exempt
 def testdocx(request):

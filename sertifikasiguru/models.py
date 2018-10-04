@@ -131,7 +131,7 @@ class DetailOrder(models.Model):
         (3, 'Failed'),
     )
 	status= models.IntegerField(choices=st, null=False, default=None)
-	url= models.CharField(max_length=100, null=True, default=None)
+	processed= models.CharField(max_length=100, null=True, default=None)
 
 class Photo(models.Model):
     title = models.CharField(max_length=255, blank=True)
