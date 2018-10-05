@@ -50,8 +50,8 @@ def replaceyaya(detailOrder):
 	nip_kepala= detailOrder.order.kepala.nip_kepala
 	nama_sekolah= detailOrder.order.sekolah.sekolah
 	alamat_sekolah= detailOrder.order.sekolah.alamat
-	ttd_kepala= detailOrder.order.kepala.ttd_kepala.url.strip("/")
-	ttd_guru= detailOrder.order.guru.ttd_guru.url.strip("/")
+	ttd_kepala= detailOrder.order.kepala.ttd_kepala.path
+	ttd_guru= detailOrder.order.guru.ttd_guru.path
 
 	for p in document.paragraphs:
 		if 'xnmk' in p.text or 'xnmg' in p.text or 'xnik' in p.text or 'xnig' in p.text or 'xskn' in p.text or 'xska' in p.text or 'xtdk' in p.text or 'xtdg' in p.text or 'unmk' in p.text or 'unmg' in p.text:
