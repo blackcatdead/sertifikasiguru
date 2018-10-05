@@ -133,7 +133,7 @@ def replaceyaya(detailOrder):
 	# response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 	# response['Content-Disposition'] = 'attachment; filename=download.docx'
 	# document.save(response)
-	document.save('media/processed/'+str(detailOrder.id_detailorder)+'.docx')
+	document.save(settings.MEDIA_ROOT+'/processed/'+str(detailOrder.id_detailorder)+'.docx')
 	detailOrder.processed= settings.MEDIA_URL+'processed/'+str(detailOrder.id_detailorder)+'.docx'
 
 	detailOrder.save()
