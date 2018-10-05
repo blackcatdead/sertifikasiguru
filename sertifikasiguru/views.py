@@ -29,8 +29,8 @@ def replacing (request):
 
 def replaceyaya(detailOrder):
 	print(detailOrder)
-	print(detailOrder.file.file.url.strip("/"))
-	f = open(detailOrder.file.file.url.strip("/") , 'rb')
+	print(detailOrder.file.file.path)
+	f = open(detailOrder.file.file.path , 'rb')
 	document = Document(f)
 	f.close()
 	# xnmk	: Nama Kepala
