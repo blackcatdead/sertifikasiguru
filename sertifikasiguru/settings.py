@@ -25,7 +25,7 @@ SECRET_KEY = 'cs4(0#4#0vdifnefstqvwhle-71!=*mg%o!o)yee68e%8f%!zr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'rikhsan.club', '178.128.110.195']
+ALLOWED_HOSTS = ['localhost', 'sg.rikhsan.com', '178.128.110.195']
 
 
 # Application definition
