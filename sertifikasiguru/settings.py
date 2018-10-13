@@ -24,10 +24,10 @@ SECRET_KEY = 'cs4(0#4#0vdifnefstqvwhle-71!=*mg%o!o)yee68e%8f%!zr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 import sys
-try:
-    DEBUG = (sys.argv[1] == 'runserver')
-except NameError:
-    DEBUG = False
+DEBUG=False
+if len(sys.argv)>1:
+    if sys.argv[1] == 'runserver':
+       DEBUG=True 
 
 print(DEBUG)
 ALLOWED_HOSTS = ['localhost', 'sg.rikhsan.com', '178.128.110.195']
